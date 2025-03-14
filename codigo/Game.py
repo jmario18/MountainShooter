@@ -1,6 +1,7 @@
 import pygame
-from codigo.Const import HEIGHT, WIDTH
+from codigo.Const import HEIGHT, WIDTH, MENU_OPTION
 from codigo.Menu import Menu
+from codigo.Level import Level
 
 class Game:
 
@@ -12,14 +13,22 @@ class Game:
     def run(self):
         running = True
         
-        clock = pygame.time.Clock()
+        
 
         while running:
             menu = Menu(self.screen)
+            menu_return = menu.run()
 
-            menu.run()
+            if menu_return == MENU_OPTION[0]:
+                level =  Level(self.screen, 'level1', menu_return)
+                level_return = level.run()
+            elif menu_return == MENU_OPTION[4]:
+                pygame.quit()
+                quit()
+            else:
+                pass
 
-            pass
+            
 #            for event in pygame.event.get():
 #                if event.type == pygame.QUIT:  #Verificando quando clica no X para fechar
 #                    running = False
@@ -27,5 +36,4 @@ class Game:
 #            pygame.display.flip() # Atualizando tela
 #
 #            clock.tick(60) #60 FPS
-        quit()
     
