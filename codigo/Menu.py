@@ -7,7 +7,7 @@ from codigo.Const import WIDTH, COLOR_ORANGE, COLOR_WHITE, MENU_OPTION, COLOR_YE
 class Menu:
     def __init__(self, screen):
         self.screen = screen
-        self.surf = pygame.image.load('./asset/MenuBg.png') #carregando imagem bg
+        self.surf = pygame.image.load('./asset/MenuBg.png').convert_alpha() #carregando imagem bg
         self.rect = self.surf.get_rect(left=0, top=0) #retangulo no topo esquedo da tela
 
     def run(self):
