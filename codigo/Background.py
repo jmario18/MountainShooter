@@ -1,6 +1,6 @@
 
 from codigo.Entity import Entity
-from codigo.Const import WIDTH , ENTITY_SPEED
+from codigo.Const import WIN_WIDTH , ENTITY_SPEED
 class Background(Entity):
 
     def __init__(self, name:str, position:tuple):
@@ -9,5 +9,5 @@ class Background(Entity):
     def move(self, ):
         self.rect.centerx -= ENTITY_SPEED[self.name]
         if self.rect.right <= 0:
-            self.rect.left = WIDTH
+            self.rect.left = WIN_WIDTH
         

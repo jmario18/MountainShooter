@@ -1,45 +1,41 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import sys
+
 import pygame
-from codigo.Const import HEIGHT, WIDTH, MENU_OPTION
-from codigo.Menu import Menu
+
+from codigo.Const import WIN_WIDTH, WIN_HEIGHT, MENU_OPTION
 from codigo.Level import Level
+from codigo.Menu import Menu
+from codigo.Score import Score
+
 
 class Game:
-
     def __init__(self):
-        self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
-        
+        pygame.init()
+        self.window = pygame.display.set_mode(size=(WIN_WIDTH, WIN_HEIGHT))
 
-    pygame.init()
     def run(self):
-        running = True
-        
-        
-
-        while running:
-            menu = Menu(self.screen)
+        while True:
+            score = Score(self.window)
+            menu = Menu(self.window)
             menu_return = menu.run()
 
-            if menu_return == MENU_OPTION[0]:
-                level =  Level(self.screen, 'level1', menu_return)
-                level_return = level.run()
-            if menu_return == MENU_OPTION[1]:
-                level = Level(self.screen, 'level1', menu_return)
-                level_return = level.run()
-            if menu_return == MENU_OPTION[2]:
-                level = Level(self.screen, 'level1', menu_return)
-                level_return = level.run()
-            elif menu_return == MENU_OPTION[4]:
-                pygame.quit()
-                quit()
-            else:
-                pass
+            if menu_return in [MENU_OPTION[0], MENU_OPTION[1], MENU_OPTION[2]]:
+                player_score = [0, 0]  # [Player1, Player2]
+                level = Level(self.window, 'Level1', menu_return, player_score)
+                level_return = level.run(player_score)
+                if level_return:
+                    level = Level(self.window, 'Level2', menu_return, player_score)
+                    level_return = level.run(player_score)
+                    if level_return:
+                        score.save(menu_return, player_score)
 
-            
-#            for event in pygame.event.get():
-#                if event.type == pygame.QUIT:  #Verificando quando clica no X para fechar
-#                    running = False
-#                    pygame.quit()
-#            pygame.display.flip() # Atualizando tela
-#
-#            clock.tick(60) #60 FPS
-    
+            elif menu_return == MENU_OPTION[3]:
+                score.show()
+            elif menu_return == MENU_OPTION[4]:
+                pygame.quit()  # Close Window
+                quit()  # end pygame
+            else:
+                pygame.quit()
+                sys.exit()
